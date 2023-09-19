@@ -6,7 +6,7 @@ cj=dcobj.cursor()
 
 app = Flask(__name__)
 
-# A simple dictionary to store username-password pairs (replace with a database in a real application).
+
 user_credentials = {
     'user1': 'kirthick',
     'user2': '123',
@@ -26,8 +26,7 @@ def login():
         cj.execute("select * from Login where Username=%s and Password=%s",(username,password))
         table=cj.fetchone()
         
-        # Check if the entered credentials match the stored credentials
-        #if username in user_credentials and user_credentials[username] == password:
+       
         if table:
             return "Login Successful!"
             #redirect here
@@ -46,7 +45,6 @@ def signup():
         cj.execute("select * from Login where Username=%s",(username,))
         table=cj.fetchone()
         
-        #if username in user_credentials and user_credentials[username] == password:
         if table:
             error = "Username Already Exists"
             return render_template('signup.html', error=error)
