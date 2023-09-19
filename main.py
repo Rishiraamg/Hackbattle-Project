@@ -46,7 +46,6 @@ def signup():
         cj.execute("select * from Login where Username=%s",(username,))
         table=cj.fetchone()
         
-        # Check if the entered credentials match the stored credentials
         #if username in user_credentials and user_credentials[username] == password:
         if table:
             error = "Username Already Exists"
@@ -66,7 +65,17 @@ def createdb():
     dcobj.commit()
     
 
+def chkdat():
+    cj.execute("show databases")
+    chk=cj.fetchall()
+    if chk:
+        return 1
+    else:
+        return 0
+    
+
 if __name__ == '__main__':
-    createdb()
+    if chkdat()==0:
+        createdb()
     app.run(debug=True)
     
