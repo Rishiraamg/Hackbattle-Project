@@ -62,6 +62,7 @@ def createdb():
     cj.execute('create database VITRAVEL')
     cj.execute('use VITRAVEL')
     cj.execute('create table Login (Username varchar(100), Password varchar(50))')
+    cj.execute("create table Travel (Name varchar(100),To varchar(100), From varchar(100), Date date, Mob int, Vacancy int)")
     dcobj.commit()
     
 
