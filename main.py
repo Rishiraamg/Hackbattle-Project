@@ -67,6 +67,6 @@ def createdb():
     
 
 if __name__ == '__main__':
-    #createdb()
+    createdb()
     app.run(debug=True)
     
