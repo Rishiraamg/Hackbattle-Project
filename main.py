@@ -43,7 +43,7 @@ def signup():
         password = request.form['password']
         
         cj.execute("use VITRAVEL")
-        cj.execute("select * from Login where Username=%s",(u,))
+        cj.execute("select * from Login where Username=%s",(username,))
         table=cj.fetchone()
         
         # Check if the entered credentials match the stored credentials
