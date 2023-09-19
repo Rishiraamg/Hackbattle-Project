@@ -34,8 +34,29 @@ def login():
         else:
             error = "Invalid credentials. Please try again."
             return render_template('login.html', error=error)
-
     return render_template('login.html', error=None)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        cj.execute("use VITRAVEL")
+        cj.execute("select * from Login where Username=%s",(u,))
+        table=cj.fetchone()
+        
+        # Check if the entered credentials match the stored credentials
+        #if username in user_credentials and user_credentials[username] == password:
+        if table:
+            error = "Username Already Exists"
+            return render_template('signup.html', error=error)
+        else:
+            cj.execute(f"insert into Login (Username,Password) values (%s,%s)",(username,password))
+            dcobj.commit()
+            return redirect(url_for('login'))
+            
+    return render_template('signup.html', error=None)
 
 def createdb():
     cj.execute('create database VITRAVEL')
@@ -43,9 +64,6 @@ def createdb():
     cj.execute('create table Login (Username varchar(100), Password varchar(50))')
     dcobj.commit()
     
-
-
-
 
 if __name__ == '__main__':
     #createdb()
