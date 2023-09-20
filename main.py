@@ -28,8 +28,7 @@ def login():
         
        
         if table:
-            return "Login Successful!"
-            #redirect here
+            return redirect(url_for('mainpage'))
         else:
             error = "Invalid credentials. Please try again."
             return render_template('login.html', error=error)
@@ -55,11 +54,35 @@ def signup():
             
     return render_template('signup.html', error=None)
 
+@app.route('/mainpage', methods=['GET', 'POST'])
+def mainpage():
+    return render_template('mainpage.html')
+
+@app.route('/apply', methods=['GET', 'POST'])
+def apply():
+    c=0
+    if request.method == 'POST':
+        
+        name=request.form['nam']
+        email=request.form['email']
+        no=request.form['no']
+        to=request.form['to']
+        fro='VIT'
+        date=str(request.form['date'])
+        #vac=int(request.form['vac'])
+        cj.execute("use VITRAVEL")
+        cj.execute("insert into Travel (Name, Email, Mob, 'To', 'From', Date) values (%s,%s,%s,%s,%s,%s)",(name,email,no,to,fro,date))
+        c=1
+    if c==0:
+        return render_template('apply.html',success=0)
+    else:
+        return render_template('apply.html',success=1)
+
 def createdb():
     cj.execute('create database VITRAVEL')
     cj.execute('use VITRAVEL')
     cj.execute('create table Login (Username varchar(100), Password varchar(50))')
-    cj.execute("create table Travel (Name varchar(100),To varchar(100), From varchar(100), Date date, Mob int, Vacancy int)")
+    cj.execute("create table Travel (Name varchar(100),'To' varchar(100), 'From' varchar(100), Date varchar(100), Mob varchar(100) , Email varchar(100), Vacancy int)")
     dcobj.commit()
     
 
